@@ -10,12 +10,10 @@ class TodoPost(BaseModel):
     title: str
     completed: bool
 
-# class TodoPut(BaseModel):
-#     id: Optional[UUID]
-#     title: Optional[str]
-#     completed: Optional[bool]
-    
-# TODOS = []
+class TodoPut(BaseModel):
+    id: int
+    title: str
+    completed: bool
 
 database.create_table()
 
@@ -32,19 +30,12 @@ async def get_todo(id):
 @app.post('/')
 async def add_todo(todo: TodoPost):
     database.add_todo(todo.title, todo.completed)
+    return 'Todo Added'
 
-# @app.put('/')
-# async def update_todo(todo: TodoPut):
-#     if len(list(filter(lambda x : str(x['id']) == id, TODOS))) == 0:
-#         return f'todo with id {id} not found'
-    
-#     todo_to_update = list(filter(lambda x : x['id'] == todo.id, TODOS))[0]
-#     todo_index = TODOS.index(todo_to_update)
-#     todo_to_update['title'] = todo.title
-#     todo_to_update['completed'] = todo.completed
-#     TODOS.pop(todo_index)
-#     TODOS.insert(todo_index, todo_to_update)
-#     return todo_to_update
+@app.put('/')
+async def update_todo(todo: TodoPut):
+    database.update_todo(todo.id, todo.title, todo.completed)
+    return 'Todo Updated'
 
 @app.delete('/{id}')
 async def del_todo(id):
