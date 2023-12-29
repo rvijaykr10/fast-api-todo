@@ -46,11 +46,7 @@ async def add_todo(todo: TodoPost):
 #     TODOS.insert(todo_index, todo_to_update)
 #     return todo_to_update
 
-# @app.delete('/{id}')
-# async def del_todo(id):
-#     global TODOS
-#     if len(list(filter(lambda x : str(x['id']) == id, TODOS))) == 0:
-#         return f'todo with id {id} not found'
-    
-#     TODOS = list(filter(lambda x : str(x['id']) != id, TODOS))
-#     return 'Todo Deleted'
+@app.delete('/{id}')
+async def del_todo(id):
+    database.delete_todo(id)
+    return 'Todo Deleted'

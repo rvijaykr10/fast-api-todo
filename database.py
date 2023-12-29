@@ -14,6 +14,7 @@ CREATE_TODOS_TABLE = """CREATE TABLE IF NOT EXISTS todos (
 SHOW_TODO = "SELECT * FROM todos WHERE id = %s"
 SHOW_TODOS = "SELECT * FROM todos"
 INSERT_TODO = "INSERT INTO todos (title, completed) VALUES (%s, %s)"
+DELETE_TODO = "DELETE from todos WHERE id = %s"
 
 connection = psycopg2.connect(os.environ.get("DATABASE_URL"))
 
@@ -38,3 +39,8 @@ def add_todo(title, completed=False):
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(INSERT_TODO, (title, completed))
+
+def delete_todo(id):
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(DELETE_TODO, (id,))
