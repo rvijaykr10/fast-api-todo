@@ -45,6 +45,7 @@ def update_todo(id, title, completed):
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(UPDATE_TODO, (title, completed, id))
+
 def delete_todo(id):
     with connection:
         with connection.cursor() as cursor:
