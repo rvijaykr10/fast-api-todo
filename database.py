@@ -11,6 +11,7 @@ CREATE_TODOS_TABLE = """CREATE TABLE IF NOT EXISTS todos (
     completed BOOLEAN
 );"""
 
+SHOW_TODO = "SELECT * FROM todos WHERE id = %s"
 SHOW_TODOS = "SELECT * FROM todos"
 INSERT_TODO = "INSERT INTO todos (title, completed) VALUES (%s, %s)"
 
@@ -21,6 +22,12 @@ def create_table():
         with connection.cursor() as cursor:
             cursor.execute(CREATE_TODOS_TABLE)
             
+def show_todo(id):
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(SHOW_TODO, (id,))
+            return cursor.fetchall()
+        
 def show_todos():
     with connection:
         with connection.cursor() as cursor:

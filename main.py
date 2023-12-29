@@ -24,12 +24,10 @@ async def get_todos():
     todos = database.show_todos()
     return todos
 
-# @app.get('/{id}')
-# async def get_todo(id):
-#     if len(list(filter(lambda x : str(x['id']) == id, TODOS))) == 0:
-#         return f'todo with id {id} not found'
-    
-#     return list(filter(lambda x : str(x['id']) == id, TODOS))
+@app.get('/{id}')
+async def get_todo(id):
+    todo = database.show_todo(id)
+    return todo
 
 @app.post('/')
 async def add_todo(todo: TodoPost):
