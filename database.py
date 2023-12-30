@@ -17,6 +17,7 @@ SHOW_TODOS = "SELECT * FROM todos;"
 INSERT_TODO = "INSERT INTO todos (title, completed) VALUES (%s, %s);"
 UPDATE_TODO = "UPDATE todos SET title=%s, completed=%s WHERE id = %s;"
 DELETE_TODO = "DELETE from todos WHERE id = %s;"
+COUNT_TODO =  "SELECT COUNT(*) FROM todos WHERE id= %s;"
 
 connection = psycopg2.connect(os.environ.get("DATABASE_URL"))
 
@@ -30,6 +31,14 @@ def show_todo(id):
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(SHOW_TODO, (id,))
             return cursor.fetchall()
+        
+def get_todo_count(id):
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(COUNT_TODO, (id,))  # Pass the query and todo_id as parameters
+            count = cursor.fetchone()[0]
+            return count
+
         
 def show_todos():
     with connection:

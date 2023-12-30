@@ -24,6 +24,9 @@ async def get_todos():
 
 @app.get('/{id}')
 async def get_todo(id:int):
+    # count = database.get_todo_count(id)
+    # if count == 0:
+    #     return f"{id} doesn't exist."
     todo = database.show_todo(id)
     return todo
 
@@ -34,11 +37,16 @@ async def add_todo(todo: TodoPost):
 
 @app.put('/')
 async def update_todo(todo: TodoPut):
-    print(todo)
+    count = database.get_todo_count(todo.id)
+    if count == 0:
+        return "Invalid payload."
     database.update_todo(todo.id, todo.title, todo.completed)
     return 'Todo Updated'
 
 @app.delete('/{id}')
 async def del_todo(id:int):
+    count = database.get_todo_count(id)
+    if count == 0:
+        return "Invalid payload."
     database.delete_todo(id)
     return 'Todo Deleted'
