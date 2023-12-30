@@ -23,7 +23,7 @@ async def get_todos():
     return todos
 
 @app.get('/{id}')
-async def get_todo(id):
+async def get_todo(id:int):
     todo = database.show_todo(id)
     return todo
 
@@ -34,10 +34,11 @@ async def add_todo(todo: TodoPost):
 
 @app.put('/')
 async def update_todo(todo: TodoPut):
+    print(todo)
     database.update_todo(todo.id, todo.title, todo.completed)
     return 'Todo Updated'
 
 @app.delete('/{id}')
-async def del_todo(id):
+async def del_todo(id:int):
     database.delete_todo(id)
     return 'Todo Deleted'

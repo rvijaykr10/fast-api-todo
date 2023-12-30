@@ -1,6 +1,7 @@
 import os
 import psycopg2
 # from psycopg2.extras import DictCursor
+from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -26,15 +27,21 @@ def create_table():
             
 def show_todo(id):
     with connection:
-        with connection.cursor() as cursor:
+        with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(SHOW_TODO, (id,))
             return cursor.fetchall()
         
 def show_todos():
     with connection:
-        with connection.cursor() as cursor:
+        with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(SHOW_TODOS)
-            return cursor.fetchall()
+            todos = cursor.fetchall()
+            return todos  # Returns a list of dictionaries
+
+# If you need the result as a JSON string
+# result = show_todos()
+# json_result = json.dumps(result)
+# print(json_result
             
 def add_todo(title, completed=False):
     with connection:
