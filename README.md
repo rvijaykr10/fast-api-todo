@@ -1,16 +1,11 @@
 ## windows
 
-python -m venv env
-./env/Scripts/activate
-deactivate
+python -m pip install -r requirements.txt
+
+python -m uvicorn main:app --reload
 
 ## mac
 
-python3 -m venv env
-source env/bin/activate
+python3 -m pip install -r requirements.txt
 
-pip install -r requirements.txt
-pip list
-
-uvicorn main:app --reload
-uvicorn main:app --reload --port 5000
+python3 -m uvicorn main:app --reload
